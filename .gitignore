@@ -5,3 +5,8 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Local impeccable / OMP tooling artifacts
+.impeccable/
+.pi/
+omp-session-*.html
