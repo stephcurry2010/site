@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FTC Team 36424 — The Underengineered Toasters. Burning up the competition, one bot at a time." />
+  <title>FTC 36424 · Underengineered Toasters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="icon" href="images/logo.png" />
+  <style>
+  /* ============================================================
+     FTC 36424 · Underengineered Toasters  —  inlined styles
+     (single-file static site: no external CSS/JS to disconnect)
+     ============================================================ */
+  :root {
+    --bg:        #0e0d0f;
+    --bg-soft:   #16151a;
+    --bg-card:   #1d1c22;
+    --steel:     #2a2930;
+    --line:      #2f2e36;
+    --text:      #f4f1ee;
+    --muted:     #a39f9b;
+    --flame-1:   #ffd23f;
+    --flame-2:   #ff8e1f;
+    --flame-3:   #ff4d1c;
+    --flame-4:   #e01010;
+    --flame-grad: linear-gradient(160deg, #ffd23f 0%, #ff8e1f 38%, #ff4d1c 70%, #e01010 100%);
+    --radius: 16px;
+    --maxw: 1180px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  section { scroll-margin-top: 80px; }
+  .flame-text { background: var(--flame-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* ---------- Buttons ---------- */
+  .btn { display: inline-block; padding: 0.85rem 1.6rem; border-radius: 999px; font-weight: 700; font-size: 0.95rem; cursor: pointer; border: none; transition: transform .18s ease, box-shadow .18s ease, opacity .18s; }
+  .btn--primary { background: var(--flame-grad); color: #1a0c00; box-shadow: 0 8px 30px rgba(255,77,28,.35); }
+  .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(255,77,28,.5); }
+  .btn--ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+  .btn--ghost:hover { border-color: var(--flame-2); color: var(--flame-1); transform: translateY(-3px); }
+
+  /* ---------- Nav ---------- */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 1rem clamp(1rem, 4vw, 3rem); background: rgba(14,13,15,.6); backdrop-filter: blur(14px); border-bottom: 1px solid transparent; transition: background .3s, border-color .3s, padding .3s; }
+  .nav.scrolled { background: rgba(14,13,15,.92); border-color: var(--line); padding-top: .7rem; padding-bottom: .7rem; }
+  .nav__brand { display: flex; align-items: center; gap: .7rem; }
+  .nav__logo { width: 84px; display: flex; align-items: center; }
+  .nav__title { font-weight: 800; font-size: 1.05rem; }
+  .nav__title em { font-style: normal; color: var(--muted); font-weight: 600; font-size: .85rem; display: block; margin-top: -3px; }
+  .nav__links { display: flex; align-items: center; gap: 1.6rem; }
+  .nav__links a { color: var(--muted); font-weight: 600; font-size: .95rem; transition: color .2s; }
+  .nav__links a:hover { color: var(--text); }
+  .nav__cta { background: var(--flame-grad); color: #1a0c00 !important; padding: .55rem 1.1rem; border-radius: 999px; }
+  .nav__burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+  .nav__burger span { width: 26px; height: 2.5px; background: var(--text); border-radius: 2px; transition: .3s; }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 7rem 1.5rem 4rem; background: radial-gradient(900px 500px at 50% -10%, rgba(255,77,28,.22), transparent 60%), radial-gradient(600px 400px at 50% 0%, rgba(255,210,63,.12), transparent 55%), var(--bg); overflow: hidden; }
+  .hero__embers { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+  .ember { position: absolute; bottom: -10px; border-radius: 50%; background: var(--flame-2); opacity: .7; animation: rise linear infinite; box-shadow: 0 0 8px 2px rgba(255,142,31,.5); }
+  @keyframes rise { to { transform: translateY(-105vh) translateX(var(--drift, 20px)); opacity: 0; } }
+  .hero__inner { position: relative; z-index: 1; max-width: 880px; }
+  .hero__logo { width: clamp(260px, 56vw, 520px); margin: 0 auto 1.2rem; filter: drop-shadow(0 16px 44px rgba(255,77,28,.5)); animation: float 5s ease-in-out infinite; }
+  @keyframes float { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-12px);} }
+  .hero__eyebrow { color: var(--flame-1); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; font-size: .8rem; margin-bottom: 1rem; }
+  .hero__title { font-family: 'Bungee', sans-serif; font-size: clamp(2.6rem, 9vw, 6rem); letter-spacing: 0; line-height: .95; }
+  .hero__tag { color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.3rem); margin: 1.4rem 0 2.2rem; }
+  .hero__btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .hero__scroll { position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%); color: var(--muted); font-size: .8rem; letter-spacing: .2em; animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{ transform: translate(-50%,0);} 50%{ transform: translate(-50%,8px);} }
+
+  /* ---------- Stats ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); max-width: var(--maxw); margin: -3rem auto 0; padding: 0 1.5rem; position: relative; z-index: 5; }
+  .stat { background: var(--bg-card); border: 1px solid var(--line); padding: 1.8rem 1rem; text-align: center; }
+  .stat:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .stat:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+  .stat__num { display: block; font-family: 'Bungee', sans-serif; font-size: clamp(1.6rem, 4vw, 2.6rem); background: var(--flame-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat__label { color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .12em; }
+
+  /* ---------- Section shell ---------- */
+  .section { max-width: var(--maxw); margin: 0 auto; padding: 6rem clamp(1.2rem, 4vw, 2rem); }
+  .section--dark { max-width: none; background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .section--dark > * { max-width: var(--maxw); margin-left: auto; margin-right: auto; }
+  .section__head { margin-bottom: 3rem; }
+  .section__kicker { color: var(--flame-2); font-weight: 700; letter-spacing: .2em; text-transform: uppercase; font-size: .78rem; font-family: monospace; }
+  .section__head h2 { font-size: clamp(1.9rem, 5vw, 3.2rem); margin-top: .6rem; }
+
+  /* ---------- About ---------- */
+  .about__lead { font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: var(--text); max-width: 760px; margin-bottom: 3rem; }
+  .about__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.4rem; }
+  .card { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 2rem 1.6rem; transition: transform .25s, border-color .25s; }
+  .card:hover { transform: translateY(-6px); border-color: var(--flame-3); }
+  .card__icon { font-size: 2.2rem; margin-bottom: .8rem; }
+  .card h3 { font-size: 1.25rem; margin-bottom: .5rem; }
+  .card p { color: var(--muted); }
+
+  /* ---------- Robot ---------- */
+  .robot { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; align-items: center; }
+  .robot__visual { aspect-ratio: 4/3; border-radius: var(--radius); overflow: hidden; background: radial-gradient(circle at 50% 40%, rgba(255,142,31,.18), transparent 60%), var(--steel); border: 1px solid var(--line); display: flex; }
+  .robot__placeholder { margin: auto; text-align: center; color: var(--muted); }
+  .robot__placeholder span { font-size: 3.5rem; display: block; margin-bottom: .6rem; }
+  .robot__placeholder code { color: var(--flame-1); font-size: .85rem; }
+  .robot__specs { list-style: none; display: grid; gap: .2rem; }
+  .robot__specs li { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem .2rem; border-bottom: 1px solid var(--line); }
+  .robot__specs strong { font-weight: 700; }
+  .robot__specs span { color: var(--muted); text-align: right; }
+
+  /* ---------- Team ---------- */
+  .team { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1.2rem; }
+  .member { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.6rem 1rem; text-align: center; transition: transform .25s, border-color .25s; }
+  .member:hover { transform: translateY(-6px); border-color: var(--flame-2); }
+  .member__avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto .9rem; display: grid; place-items: center; font-family: 'Bungee', sans-serif; font-size: 1.5rem; color: #1a0c00; background: var(--flame-grad); }
+  .member h4 { font-size: 1.05rem; }
+  .member span { color: var(--muted); font-size: .85rem; }
+
+  /* ---------- Timeline ---------- */
+  .timeline { list-style: none; position: relative; padding-left: 2rem; }
+  .timeline::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: var(--flame-grad); }
+  .timeline li { position: relative; padding: 0 0 2rem 0; }
+  .timeline li::before { content: ""; position: absolute; left: -2rem; top: 5px; width: 16px; height: 16px; border-radius: 50%; background: var(--flame-2); box-shadow: 0 0 0 4px rgba(255,142,31,.18); }
+  .timeline__year { color: var(--flame-1); font-weight: 700; font-family: monospace; letter-spacing: .1em; }
+  .timeline__title { font-size: 1.15rem; font-weight: 700; margin: .2rem 0; }
+  .timeline__desc { color: var(--muted); }
+
+  /* ---------- Sponsors ---------- */
+  .sponsors__lead { color: var(--muted); max-width: 640px; margin-bottom: 2.5rem; font-size: 1.1rem; }
+  .sponsors { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+  .sponsor { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); height: 100px; display: grid; place-items: center; font-weight: 700; color: var(--muted); transition: color .25s, border-color .25s, background .25s; }
+  .sponsor:hover { color: var(--flame-1); border-color: var(--flame-3); background: var(--steel); }
+  .sponsors__cta { margin-top: 2.5rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+  .sponsors__cta p { font-weight: 600; }
+
+  /* ---------- Contact ---------- */
+  .contact { display: grid; grid-template-columns: 1.3fr 1fr; gap: 2.5rem; }
+  .contact__form { display: grid; gap: 1.1rem; }
+  .field { display: grid; gap: .4rem; }
+  .field label { font-weight: 600; font-size: .9rem; }
+  .field input, .field textarea { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: .8rem 1rem; color: var(--text); font-family: inherit; font-size: 1rem; resize: vertical; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--flame-2); box-shadow: 0 0 0 3px rgba(255,142,31,.15); }
+  .contact__note { font-size: .9rem; min-height: 1.2em; }
+  .contact__note.ok { color: #4ade80; }
+  .contact__note.err { color: var(--flame-3); }
+  .contact__info h3 { margin-bottom: 1rem; }
+  .contact__info p { color: var(--muted); margin-bottom: .7rem; }
+  .contact__info a { color: var(--flame-1); }
+  .contact__socials { display: flex; gap: 1rem; margin-top: 1.2rem; }
+  .contact__socials a { color: var(--muted); border: 1px solid var(--line); padding: .4rem .9rem; border-radius: 999px; font-size: .85rem; transition: .2s; }
+  .contact__socials a:hover { color: var(--flame-1); border-color: var(--flame-2); }
+
+  /* ---------- Footer ---------- */
+  .footer { text-align: center; padding: 3rem 1.5rem; border-top: 1px solid var(--line); }
+  .footer__logo { width: 130px; display: inline-block; margin-bottom: 1rem; }
+  .footer p { color: var(--muted); font-size: .9rem; }
+  .footer__credit { margin-top: .4rem; opacity: .7; }
+
+  /* ---------- Reveal animation ---------- */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .robot, .contact { grid-template-columns: 1fr; }
+    .nav__links { position: fixed; top: 0; right: 0; height: 100vh; width: min(75vw, 300px); flex-direction: column; justify-content: center; gap: 2rem; background: var(--bg-soft); border-left: 1px solid var(--line); transform: translateX(100%); transition: transform .35s ease; padding: 2rem; }
+    .nav__links.open { transform: translateX(0); }
+    .nav__burger { display: flex; z-index: 60; }
+  }
+  @media (max-width: 560px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(1) { border-radius: var(--radius) 0 0 0; }
+    .stat:nth-child(2) { border-radius: 0 var(--radius) 0 0; }
+    .stat:nth-child(3) { border-radius: 0 0 0 var(--radius); }
+    .stat:nth-child(4) { border-radius: 0 0 var(--radius) 0; }
+  }
+  </style>
+</head>
+<body>
+  <!-- ====== NAV ====== -->
+  <header class="nav" id="nav">
+    <a href="#home" class="nav__brand">
+      <span class="nav__logo" id="navLogo"></span>
+      <span class="nav__title">36424 <em>Underengineered Toasters</em></span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#robot">Robot</a>
+      <a href="#team">Team</a>
+      <a href="#achievements">Awards</a>
+      <a href="#sponsors">Sponsors</a>
+      <a href="#contact" class="nav__cta">Get in Touch</a>
+    </nav>
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ====== HERO ====== -->
+  <section class="hero" id="home">
+    <div class="hero__embers" id="embers"></div>
+    <div class="hero__inner">
+      <div class="hero__logo" id="heroLogo"></div>
+      <p class="hero__eyebrow">FIRST Tech Challenge · Team 36424</p>
+      <h1 class="hero__title">UNDERENGINEERED<br /><span class="flame-text">TOASTERS</span></h1>
+      <p class="hero__tag">We may be underengineered — but we bring the heat. 🔥</p>
+      <div class="hero__btns">
+        <a href="#robot" class="btn btn--primary">Meet the Robot</a>
+        <a href="#contact" class="btn btn--ghost">Sponsor Us</a>
+      </div>
+    </div>
+    <div class="hero__scroll">scroll ↓</div>
+  </section>
+
+  <!-- ====== STATS ====== -->
+  <section class="stats">
+    <div class="stat"><span class="stat__num" data-count="36424">0</span><span class="stat__label">Team Number</span></div>
+    <div class="stat"><span class="stat__num" data-count="15">0</span><span class="stat__label">Members</span></div>
+    <div class="stat"><span class="stat__num" data-count="40">0</span><span class="stat__label">Matches Played</span></div>
+    <div class="stat"><span class="stat__num" data-count="9">0</span><span class="stat__label">Awards Won</span></div>
+  </section>
+
+  <!-- ====== ABOUT ====== -->
+  <section class="section" id="about">
+    <div class="section__head">
+      <span class="section__kicker">// who we are</span>
+      <h2>Built in a garage,<br />fueled by burnt toast.</h2>
+    </div>
+    <div class="about">
+      <p class="about__lead">
+        The Underengineered Toasters are a student-run FIRST Tech Challenge team
+        with a simple philosophy: keep it simple, keep it scrappy, and never stop iterating.
+        We design, build, code, and drive competitive robots — and we have a blast doing it.
+      </p>
+      <div class="about__grid">
+        <article class="card">
+          <div class="card__icon">🔧</div>
+          <h3>Engineering</h3>
+          <p>CAD, fabrication, and a relentless build-test-break-rebuild loop until the bot does exactly what we need.</p>
+        </article>
+        <article class="card">
+          <div class="card__icon">💻</div>
+          <h3>Programming</h3>
+          <p>Autonomous routines, sensor fusion, and driver-controlled code written and tuned by our software crew.</p>
+        </article>
+        <article class="card">
+          <div class="card__icon">🤝</div>
+          <h3>Outreach</h3>
+          <p>Spreading STEM in our community — mentoring younger students and running local robotics demos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ROBOT ====== -->
+  <section class="section section--dark" id="robot">
+    <div class="section__head">
+      <span class="section__kicker">// the machine</span>
+      <h2>Meet <span class="flame-text">The Toaster</span></h2>
+    </div>
+    <div class="robot">
+      <div class="robot__visual">
+        <div class="robot__placeholder">
+          <span>🤖</span>
+          <p>Drop a robot photo at<br /><code>images/robot.jpg</code></p>
+        </div>
+      </div>
+      <ul class="robot__specs">
+        <li><strong>Drivetrain</strong><span>Mecanum · field-centric drive</span></li>
+        <li><strong>Intake</strong><span>Active compliant-wheel collector</span></li>
+        <li><strong>Scoring</strong><span>Dual-stage linear slide lift</span></li>
+        <li><strong>Autonomous</strong><span>AprilTag localization + odometry</span></li>
+        <li><strong>Control</strong><span>REV Control Hub · Java / FTC SDK</span></li>
+        <li><strong>Weight</strong><span>~17.8 kg competition-ready</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== TEAM ====== -->
+  <section class="section" id="team">
+    <div class="section__head">
+      <span class="section__kicker">// the crew</span>
+      <h2>The People Behind the Burn</h2>
+    </div>
+    <div class="team" id="teamGrid"><!-- injected by js --></div>
+  </section>
+
+  <!-- ====== ACHIEVEMENTS ====== -->
+  <section class="section section--dark" id="achievements">
+    <div class="section__head">
+      <span class="section__kicker">// trophy case</span>
+      <h2>Where We've Made Our Mark</h2>
+    </div>
+    <ol class="timeline" id="timeline"><!-- injected by js --></ol>
+  </section>
+
+  <!-- ====== SPONSORS ====== -->
+  <section class="section" id="sponsors">
+    <div class="section__head">
+      <span class="section__kicker">// powered by</span>
+      <h2>Our Sponsors Keep the Heat On</h2>
+    </div>
+    <p class="sponsors__lead">Every great robot needs fuel. These partners help us compete — and we are endlessly grateful.</p>
+    <div class="sponsors" id="sponsorGrid"><!-- injected by js --></div>
+    <div class="sponsors__cta">
+      <p>Want your logo here?</p>
+      <a href="#contact" class="btn btn--primary">Become a Sponsor</a>
+    </div>
+  </section>
+
+  <!-- ====== CONTACT ====== -->
+  <section class="section section--dark" id="contact">
+    <div class="section__head">
+      <span class="section__kicker">// say hello</span>
+      <h2>Let's Build Something</h2>
+    </div>
+    <div class="contact">
+      <form class="contact__form" id="contactForm" novalidate>
+        <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required /></div>
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required /></div>
+        <div class="field"><label for="msg">Message</label><textarea id="msg" name="msg" rows="4" required></textarea></div>
+        <button type="submit" class="btn btn--primary">Send Message</button>
+        <p class="contact__note" id="formNote" aria-live="polite"></p>
+      </form>
+      <aside class="contact__info">
+        <h3>Find us</h3>
+        <p>📧 <a href="mailto:underengineeredtoasters@gmail.com">underengineeredtoasters@gmail.com</a></p>
+        <p>📍 FIRST Tech Challenge · Team 36424</p>
+        <div class="contact__socials">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="YouTube">YouTube</a>
+          <a href="#" aria-label="GitHub">GitHub</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <span class="footer__logo" id="footLogo"></span>
+    <p>© <span id="year"></span> FTC Team 36424 · Underengineered Toasters. Burning up the competition since day one.</p>
+    <p class="footer__credit">Made with 🔥 by the team.</p>
+  </footer>
+
+  <script>
+  /* ============================================================
+     FTC 36424 · Underengineered Toasters — inlined logic
+     ============================================================ */
+
+  /* Inline SVG logo: flaming toaster with "36424". Used everywhere
+     a logo appears. Drop a real logo at images/logo.png to auto-replace. */
+  const TOASTER_SVG = `
+  <svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Underengineered Toasters logo">
+    <defs>
+      <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffd23f"/>
+        <stop offset=".45" stop-color="#ff8e1f"/>
+        <stop offset=".8" stop-color="#ff4d1c"/>
+        <stop offset="1" stop-color="#e01010"/>
+      </linearGradient>
+    </defs>
+    <path d="M60 6 C50 22 38 24 40 40 C30 30 28 40 33 48 C20 46 26 60 40 58
+             C46 64 74 64 80 58 C94 60 100 46 87 48 C92 40 90 30 80 40
+             C82 24 70 22 60 6 Z" fill="url(#flame)"/>
+    <rect x="18" y="50" width="84" height="50" rx="10" fill="#34323a"/>
+    <rect x="18" y="50" width="84" height="50" rx="10" fill="none" stroke="#4a4852" stroke-width="2"/>
+    <rect x="102" y="64" width="12" height="9" rx="2" fill="#4a4852"/>
+    <rect x="28" y="100" width="10" height="6" rx="2" fill="#4a4852"/>
+    <rect x="82" y="100" width="10" height="6" rx="2" fill="#4a4852"/>
+    <text x="60" y="84" text-anchor="middle" font-family="Bungee, Arial Black, sans-serif"
+          font-size="20" fill="url(#flame)" stroke="#7a0d0d" stroke-width=".5">36424</text>
+  </svg>`;
+
+  function paintLogos() {
+    const slots = ['navLogo', 'heroLogo', 'footLogo'];
+    const img = new Image();
+    img.onload = () => slots.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = `<img src="images/logo.png" alt="Underengineered Toasters" style="width:100%;height:auto;display:block;" />`;
+    });
+    img.onerror = () => slots.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = TOASTER_SVG;
+    });
+    img.src = 'images/logo.png';
+  }
+
+  function spawnEmbers() {
+    const host = document.getElementById('embers');
+    if (!host) return;
+    const N = 28;
+    for (let i = 0; i < N; i++) {
+      const e = document.createElement('span');
+      e.className = 'ember';
+      const size = 3 + (i % 5) * 1.4;
+      e.style.width = e.style.height = size + 'px';
+      e.style.left = (i / N) * 100 + (i % 3) * 4 + '%';
+      e.style.setProperty('--drift', (i % 2 ? '' : '-') + (15 + (i % 4) * 20) + 'px');
+      e.style.animationDuration = 6 + (i % 6) + 's';
+      e.style.animationDelay = -(i % 8) + 's';
+      e.style.background = ['#ffd23f', '#ff8e1f', '#ff4d1c'][i % 3];
+      host.appendChild(e);
+    }
+  }
+
+  const TEAM = [
+    { n: 'Alex',   r: 'Captain / Build' },
+    { n: 'Maya',   r: 'Lead Programmer' },
+    { n: 'Jordan', r: 'CAD & Design' },
+    { n: 'Sam',    r: 'Driver' },
+    { n: 'Priya',  r: 'Electronics' },
+    { n: 'Leo',    r: 'Outreach Lead' },
+    { n: 'Nina',   r: 'Strategy' },
+    { n: 'Omar',   r: 'Fabrication' },
+  ];
+  function renderTeam() {
+    const grid = document.getElementById('teamGrid');
+    if (!grid) return;
+    grid.innerHTML = TEAM.map(m => `
+      <div class="member reveal">
+        <div class="member__avatar">${m.n[0]}</div>
+        <h4>${m.n}</h4>
+        <span>${m.r}</span>
+      </div>`).join('');
+  }
+
+  const AWARDS = [
+    { y: '2025', t: 'Regional Qualifier — Finalist Alliance', d: 'Fought to the finals and punched our ticket to states.' },
+    { y: '2025', t: 'Think Award', d: 'Recognized for our detailed engineering portfolio and design process.' },
+    { y: '2024', t: 'Connect Award Nominee', d: 'For building strong ties with our local engineering community.' },
+    { y: '2024', t: 'Rookie Inspiration Award', d: 'Our debut season — and we came out swinging.' },
+  ];
+  function renderAwards() {
+    const ol = document.getElementById('timeline');
+    if (!ol) return;
+    ol.innerHTML = AWARDS.map(a => `
+      <li class="reveal">
+        <span class="timeline__year">${a.y}</span>
+        <div class="timeline__title">${a.t}</div>
+        <p class="timeline__desc">${a.d}</p>
+      </li>`).join('');
+  }
+
+  const SPONSORS = ['Your Logo', 'Your Logo', 'Your Logo', 'Your Logo', 'Your Logo', 'Your Logo'];
+  function renderSponsors() {
+    const grid = document.getElementById('sponsorGrid');
+    if (!grid) return;
+    grid.innerHTML = SPONSORS.map(s => `<div class="sponsor reveal">${s}</div>`).join('');
+  }
+
+  function navBehavior() {
+    const nav = document.getElementById('nav');
+    const burger = document.getElementById('burger');
+    const links = document.getElementById('navLinks');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 30));
+    burger.addEventListener('click', () => links.classList.toggle('open'));
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+  }
+
+  function countUp() {
+    const nums = document.querySelectorAll('.stat__num');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target, target = +el.dataset.count, dur = 1400, start = performance.now();
+        function step(now) {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.floor(eased * target).toLocaleString();
+          if (p < 1) requestAnimationFrame(step); else el.textContent = target.toLocaleString();
+        }
+        requestAnimationFrame(step);
+        io.unobserve(el);
+      });
+    }, { threshold: .6 });
+    nums.forEach(n => io.observe(n));
+  }
+
+  function revealOnScroll() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: .15 });
+    document.querySelectorAll('.card, .member, .timeline li, .sponsor, .robot, .about__lead, .section__head').forEach(el => {
+      el.classList.add('reveal'); io.observe(el);
+    });
+  }
+
+  function contactForm() {
+    const form = document.getElementById('contactForm');
+    const note = document.getElementById('formNote');
+    if (!form) return;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const email = (data.get('email') || '').toString();
+      if (!data.get('name') || !email.includes('@') || !data.get('msg')) {
+        note.textContent = 'Please fill out every field with a valid email.';
+        note.className = 'contact__note err';
+        return;
+      }
+      note.textContent = `Thanks, ${data.get('name')}! We'll be in touch soon. 🔥`;
+      note.className = 'contact__note ok';
+      form.reset();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    paintLogos();
+    spawnEmbers();
+    renderTeam();
+    renderAwards();
+    renderSponsors();
+    navBehavior();
+    countUp();
+    contactForm();
+    revealOnScroll();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  });
+  </script>
+</body>
+</html>
