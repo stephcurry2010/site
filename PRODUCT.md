@@ -5,22 +5,35 @@
 brand
 
 ## Users
-Prospective team sponsors (local businesses), school administrators, parent supporters, FIRST Tech Challenge judges, and students interested in joining the robotics team.
+
+- **Sponsors & potential sponsors**: local businesses and engineering companies deciding whether to fund the team. They skim; the pitch must land in ten seconds.
+- **FTC judges** (Connect / Motivate / Inspire awards): reviewing the team's outreach portfolio and public presence.
+- **Other FTC/FIRST teams**: looking for shared resources (CAD, code, notebook templates).
+- **Prospective members & parents**: students deciding whether to join; parents deciding whether to let them.
 
 ## Product Purpose
-A highly professional, static landing page for FTC Team 36424 (Underengineered Toasters) to showcase their robot, engineering portfolio, community outreach, and team members. The site serves as the primary tool for sponsor recruitment and community engagement, inspired by the professional presentation of FRC Team 1458 (Red Tie Robotics).
+
+The public home of FTC Team 36424 "Underengineered Toasters." It carries the team identity, documents outreach for judging evidence, pitches sponsors, and shares resources with the FIRST community. Success = a sponsor emails, a judge nods, a student signs up.
 
 ## Brand Personality
-Professional, expert, collaborative, and team-focused. A clean, modern athletic-meets-academic aesthetic that balances technical competence with a high-energy fire/garage-scrappy theme, avoiding cheap SaaS-like visuals in favor of a clean, structured school/team portal.
+
+**Full chaos, precision-built.** Scorched, over-cranked, garage-built. Maximum toaster energy: loud, irreverent, self-deprecating humor everywhere ("underengineered" is the joke; the execution proves it's a lie). The voice is a burning toaster that somehow passed inspection. Fire, heat, toast, and crumbs are the metaphor system — in copy, color, and motion.
 
 ## Anti-references
-SaaS-cream/beige templates, generic AI-boilerplate landing pages with identical card grids (icon + header + body text), decorative glassmorphism, uppercase wide-tracked eyebrows on every section, and gradient text combinations.
+
+- Generic FIRST team template sites (navy + red-white-blue, seal logos, Bootstrap grids).
+- SaaS-cream landing pages and editorial-serif restraint — this brand is a fire, not a magazine.
+- Sterile corporate robotics (Boston Dynamics gray-lab minimalism).
+- Anything a judge has seen 400 times.
 
 ## Design Principles
-- **Academic Professionalism**: Treat the team's identity with the gravity of a high-school athletic/academic program, using clean typography, strong grid alignment, and generous whitespace.
-- **Authentic Engineering**: Focus on real photos/renders, clear lists, technical specifications, and historical records over generic marketing buzzwords.
-- **Intentional Contrast**: Pair deep neutrals with a sharp, high-contrast brand color (fire/flame) used deliberately for primary interactive elements and key headings.
-- **Responsive Layout Variety**: Avoid repeating the same structural pattern (e.g. grids of equal-sized cards) in successive sections.
+
+1. **Overengineer the joke.** The humor only lands if the craft underneath is flawless. Every chaotic element is precisely built.
+2. **Fire is the brand.** Heat carries through everything: palette, shaders, copy, section names, sponsor tiers.
+3. **One dominant idea per fold.** Chaos in voice, discipline in pacing.
+4. **The sponsor pitch is never buried.** Ten seconds to "here's how you fund us" from any page.
+5. **Chaos with a handrail.** Accessibility baseline is never the punchline — AA contrast, keyboard nav, reduced-motion fallbacks always work.
 
 ## Accessibility & Inclusion
-WCAG 2.1 Level AA compliance, strict color contrast (≥4.5:1) on all body text, full keyboard navigability for form elements, and absolute support for reduced motion (disabling ember/float animations when `@media (prefers-reduced-motion: reduce)` is set).
+
+WCAG AA. All body text ≥4.5:1 against its background. Full keyboard navigation. Every shader/animation has a `prefers-reduced-motion` fallback (static gradient frame). Semantic HTML throughout.
