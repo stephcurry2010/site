@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "test -f .env || cp .env.example .env; vite build",
     "preview": "vite preview"
   },
   "dependencies": {
