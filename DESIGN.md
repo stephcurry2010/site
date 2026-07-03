@@ -40,10 +40,11 @@ Contrast rules: body text always `--ink` or `--ink-muted`, never lighter. `--fla
 - Ease: `cubic-bezier(0.16, 1, 0.3, 1)` (expo-out). Durations 300–700ms. No bounce.
 - Hero: Three.js procedural fire shader (fbm noise) + GPU ember particles. Sub-pages get a lighter ember-field band.
 - Scroll reveals enhance visible defaults (content never hidden without JS); per-section treatments, not one uniform fade.
-- `prefers-reduced-motion`: shaders render a single static frame; ticker stops; reveals become instant.
+- **Page transitions: the toast-pop** (`navigate.js` + `main.css`). Internal navigations swap only `<main>` client-side; nav, footer, and document persist. Choreography is one toaster cycle, ≤400ms wall time: lever press (12px down, 70ms) → eject (up 22vh with fade, quad-out — travel must stay visible ~150ms or it reads as a flicker) → bread-drop (new page falls in from −8vh, expo-out, dead stop — sheet metal, no settle bounce). Old page ejects UNDER the sticky nav (`--z-page-exit: 9`). Pages prefetch on hover/focus; any fetch failure falls back to a real navigation; the CSS cross-document view-transition covers no-JS browsers.
+- `prefers-reduced-motion`: shaders render a single static frame; ticker stops; reveals become instant; page swaps are instant (no eject/drop classes ever added).
 
 ## Layout
 
 - Content column: `min(1100px, 92vw)`. Fluid section spacing `clamp(4rem, 10vh, 8rem)`.
 - Asymmetric folds: alternate text-heavy / visual-heavy sides. No identical card grids — vary spans.
-- z-scale: `--z-nav: 10; --z-ticker: 5; --z-modal: 50; --z-toast: 60`.
+- z-scale: `--z-ticker: 5; --z-page-exit: 9; --z-nav: 10; --z-modal: 50; --z-toast: 60`.

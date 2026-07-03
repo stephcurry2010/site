@@ -31,6 +31,7 @@
 
   /* z-scale */
   --z-ticker: 5;
+  --z-page-exit: 9; /* ejecting page slides up UNDER the nav */
   --z-nav: 10;
   --z-modal: 50;
   --z-toast: 60;
@@ -114,6 +115,75 @@
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none;
+  }
+}
+
+/* --- Toast-pop transition (SPA swap; navigate.js) ---------------------------
+   Intercepted navigations swap only <main>, staged as one toaster cycle:
+   the old page presses down like the lever (68ms), ejects up out of frame
+   under the nav, while the new page drops into the slot from above and lands
+   dead — sheet metal, no bounce. Total wall time ~400ms. */
+
+main:focus-visible {
+  outline: none; /* programmatic focus target after swaps, not a control */
+}
+
+.main-eject {
+  position: fixed; /* inline `top` set from its live viewport position */
+  left: 0;
+  right: 0;
+  z-index: var(--z-page-exit);
+  pointer-events: none;
+  animation: toast-eject 0.28s forwards;
+}
+
+/* Travel stays short (-22vh) and the easing quad-out, not expo: the launch
+   must stay VISIBLE for ~150ms or the pop reads as a flicker. The fade does
+   the actual removal; the motion vector sells the eject. */
+@keyframes toast-eject {
+  0% {
+    translate: 0 0;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.55, 0, 0.8, 0.5); /* lever press */
+  }
+  25% {
+    translate: 0 12px;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* spring release */
+  }
+  /* Nearly gone before the incoming page's text crosses this one */
+  65% {
+    translate: 0 -13vh;
+    opacity: 0.15;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  100% {
+    translate: 0 -22vh;
+    opacity: 0;
+  }
+}
+
+.main-enter {
+  animation: bread-drop 0.26s var(--ease-out) 0.12s backwards;
+}
+
+@keyframes bread-drop {
+  from {
+    translate: 0 -8vh;
+    opacity: 0;
+  }
+}
+
+/* navigate.js never adds these classes under reduced motion; this is the
+   belt-and-suspenders for a preference change mid-flight. */
+@media (prefers-reduced-motion: reduce) {
+  .main-eject,
+  .main-enter {
+    animation: none;
+  }
+
+  .main-eject {
+    display: none; /* animationend never fires; don't leave a frozen overlay */
   }
 }
 

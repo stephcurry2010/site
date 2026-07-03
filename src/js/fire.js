@@ -23,13 +23,17 @@ import embersFrag from '../shaders/embers.frag?raw';
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// Returns a destroy() function (or null when WebGL is unavailable). Pages are
+// swapped in place by navigate.js, so every scene must release its RAF loop,
+// observers, and GPU resources — browsers cap live WebGL contexts at ~8-16 and
+// silently kill the oldest one past that.
 export function initFire(canvas, { mode = 'hero' } = {}) {
   let renderer;
   try {
     renderer = new WebGLRenderer({ canvas, alpha: true, antialias: false });
   } catch {
     canvas.remove(); // no WebGL: the CSS gradient fallback behind it carries
-    return;
+    return null;
   }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -38,6 +42,8 @@ export function initFire(canvas, { mode = 'hero' } = {}) {
 
   const res = new Vector2(1, 1);
   const materials = [];
+
+  const geometries = [];
 
   if (mode === 'hero') {
     const fireMat = new ShaderMaterial({
@@ -53,7 +59,9 @@ export function initFire(canvas, { mode = 'hero' } = {}) {
       depthWrite: false,
       depthTest: false,
     });
-    scene.add(new Mesh(new PlaneGeometry(2, 2), fireMat));
+    const planeGeo = new PlaneGeometry(2, 2);
+    scene.add(new Mesh(planeGeo, fireMat));
+    geometries.push(planeGeo);
     materials.push(fireMat);
   }
 
@@ -85,6 +93,7 @@ export function initFire(canvas, { mode = 'hero' } = {}) {
   const embers = new Points(emberGeo, emberMat);
   embers.frustumCulled = false;
   scene.add(embers);
+  geometries.push(emberGeo);
   materials.push(emberMat);
 
   function resize() {
@@ -104,34 +113,50 @@ export function initFire(canvas, { mode = 'hero' } = {}) {
     renderer.render(scene, camera);
   }
 
-  // Reduced motion: render exactly one warm frame and stop.
+  let rafId = null;
+  let io = null;
+  let onVisibility = null;
+
   if (reducedMotion.matches) {
+    // Reduced motion: render exactly one warm frame and stop.
     renderFrame(start + 4200);
-    return;
+  } else {
+    // Animate only while on-screen and the tab is visible.
+    const loop = (now) => {
+      renderFrame(now);
+      rafId = requestAnimationFrame(loop);
+    };
+    io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && rafId === null) {
+        rafId = requestAnimationFrame(loop);
+      } else if (!entry.isIntersecting && rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    });
+    io.observe(canvas);
+    onVisibility = () => {
+      if (document.hidden && rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      } else if (!document.hidden && rafId === null) {
+        io.disconnect();
+        io.observe(canvas); // re-check intersection on return
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
   }
 
-  // Animate only while on-screen and the tab is visible.
-  let rafId = null;
-  const loop = (now) => {
-    renderFrame(now);
-    rafId = requestAnimationFrame(loop);
+  return function destroy() {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    ro.disconnect();
+    if (io) io.disconnect();
+    if (onVisibility) document.removeEventListener('visibilitychange', onVisibility);
+    for (const g of geometries) g.dispose();
+    for (const m of materials) m.dispose();
+    renderer.dispose();
   };
-  const io = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting && rafId === null) {
-      rafId = requestAnimationFrame(loop);
-    } else if (!entry.isIntersecting && rafId !== null) {
-      cancelAnimationFrame(rafId);
-      rafId = null;
-    }
-  });
-  io.observe(canvas);
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && rafId !== null) {
-      cancelAnimationFrame(rafId);
-      rafId = null;
-    } else if (!document.hidden && rafId === null) {
-      io.disconnect();
-      io.observe(canvas); // re-check intersection on return
-    }
-  });
 }
