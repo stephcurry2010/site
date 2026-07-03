@@ -1,147 +1,49 @@
----
-name: The Spark & Steel Workshop
-description: Industrial garage grit meets high-contrast, professional engineering structure
-colors:
-  primary: "#f93e1b"
-  secondary: "#ff901e"
-  feedback-success: "#4ade80"
-  neutral-bg: "#0c0b0d"
-  neutral-surface: "#121115"
-  neutral-border: "#706c79"
-  neutral-text: "#f4f1ee"
-  neutral-muted: "#9d9893"
-typography:
-  display:
-    fontFamily: "League Spartan, system-ui, sans-serif"
-    fontSize: "clamp(2.5rem, 7vw, 5rem)"
-    fontWeight: 800
-    lineHeight: 1.05
-    letterSpacing: "-0.04em"
-  body:
-    fontFamily: "Public Sans, system-ui, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 400
-    lineHeight: 1.6
-    letterSpacing: "normal"
-  label:
-    fontFamily: "JetBrains Mono, monospace"
-    fontSize: "0.85rem"
-    fontWeight: 500
-    lineHeight: 1.2
-    letterSpacing: "normal"
-rounded:
-  sm: "6px"
-  md: "12px"
-spacing:
-  sm: "8px"
-  md: "16px"
-  lg: "32px"
-components:
-  button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.neutral-bg}"
-    rounded: "{rounded.sm}"
-    padding: "12px 24px"
-  button-ghost:
-    backgroundColor: "transparent"
-    textColor: "{colors.neutral-text}"
-    rounded: "{rounded.sm}"
-    padding: "12px 24px"
----
+# Design
 
-# Design System: The Spark & Steel Workshop
+Visual system for the Underengineered Toasters (FTC 36424) site. Dark & fiery, drenched-to-committed color strategy: charcoal sheet-metal surfaces, flame as the brand color carrying 30–50% of every fold. Reference lane: skate-brand acid-maximalism (Liquid Death energy) built with workshop precision — NOT editorial, NOT SaaS.
 
-## 1. Overview
+## Color
 
-**Creative North Star: "The Spark & Steel Workshop"**
+All colors OKLCH. Derived from the team logo (flaming toaster: golden-yellow flame core, orange mid, red edges, gray toaster body).
 
-"The Spark & Steel Workshop" design system combines the raw, industrial garage feel of a robotics workshop with the precision, grid alignment, and clean structure of a professional engineering portal. It rejects the soft, friendly SaaS curves and cream backdrops of typical template sites in favor of a sharp, high-contrast dark palette, heavy typographic weights, and robust layouts.
+| Token | Value | Role |
+|---|---|---|
+| `--bg` | `oklch(0.15 0.012 45)` | Body background — warm near-black charcoal |
+| `--surface` | `oklch(0.20 0.018 50)` | Raised panels, nav |
+| `--surface-2` | `oklch(0.24 0.02 55)` | Second-level raise, hover |
+| `--ink` | `oklch(0.96 0.015 85)` | Body text — warm off-white (≥4.5:1 on all surfaces) |
+| `--ink-muted` | `oklch(0.76 0.02 70)` | Secondary text (still ≥4.5:1 on `--bg`) |
+| `--flame` | `oklch(0.78 0.16 70)` | Primary brand — golden flame orange |
+| `--ember` | `oklch(0.68 0.19 48)` | Deep orange — hovers, gradients |
+| `--scorch` | `oklch(0.58 0.21 32)` | Red-orange — hot edges, emphasis bands |
+| `--crumb` | `oklch(0.42 0.06 60)` | Toast-crust brown — borders, dividers |
 
-  Garage Black (#0c0b0d): The main background color. A deep, solid near-black that provides maximum contrast.
-  Steel Container (#121115): The surface color for structured container areas, lists, and form inputs.
-  Welding Seam (#222026): The border color, used for sharp layout dividers and input boundaries.
-  Bright Ash (#f4f1ee): The primary body text color, offering excellent contrast against the dark background.
-  Cold Soot (#9d9893): The muted text and icon color, maintaining readability while establishing hierarchy.
-  Spark Green (#4ade80): The success feedback color, used for positive system status.
+Contrast rules: body text always `--ink` or `--ink-muted`, never lighter. `--flame` on `--bg` passes AA for all text sizes. On flame-filled surfaces, text is `--bg` (dark on flame), never white.
 
-The palette is rooted in industrial steel and high-heat combustion.
+## Typography
 
-### Primary
-- **Combustion Red** (#f93e1b): The primary brand accent, used for high-importance interactions, buttons, and selective key headings. It represents the heat of the toaster.
-### Secondary
-- **Embers Orange** (#ff901e): The secondary accent color, used for secondary states, hover highlights, and technical data points.
+- **Display / brand voice: "Bungee"** (Google Fonts) — DJR's sign-painting font. Loud, urban, chromatic. Used for h1, section titles, the ticker, buttons. All-caps by design. Letter-spacing 0 to +0.02em (never negative — Bungee is already tight).
+- **Body / engineering voice: "Archivo"** (variable: weight + width) — industrial grotesque with signage DNA. Body at 400/430, subheads at 800 expanded. The precision under the chaos.
+- Scale: 1.333 ratio. Body 1rem/1.6. Fluid headings via clamp(), display ceiling 5.5rem.
+- `text-wrap: balance` on h1–h3; body max 68ch.
 
-### Neutral
-- **Garage Black** (#0c0b0d): The main background color. A deep, solid near-black that provides maximum contrast.
-- **Steel Container** (#121115): The surface color for structured container areas, lists, and form inputs.
-- **Welding Seam** (#706c79): The border color, used for sharp layout dividers and input boundaries (providing WCAG AA contrast).
-- **Bright Ash** (#f4f1ee): The primary body text color, offering excellent contrast against the dark background.
-- **Cold Soot** (#9d9893): The muted text and icon color, maintaining readability while establishing hierarchy.
-- **Spark Green** (#4ade80): The success feedback color, used for positive system status.
+## Components
 
-### Named Rules
-**The Accented Restraint Rule.** The combustion red accent must occupy ≤10% of any screen surface. It is a spark, not a wash. Under no circumstances should body text, large background blocks, or non-interactive containers be fully red.
+- **Nav**: sticky top bar on `--surface`, logo mark + wordmark left, page links right; current page gets a flame underline (3px). Mobile: horizontal scroll, no hamburger.
+- **Buttons**: "toaster lever" — sharp 6px radius, Bungee, flame fill with dark text (primary) or 2px flame border (secondary). Press state translates down 2px like pushing the lever.
+- **Panels**: `--surface` on 10px radius, 1px `--crumb` border, NO drop shadows (sheet metal doesn't glow).
+- **Ticker**: full-width marquee band in `--flame` with dark Bungee text. One per page max.
+- **Dividers**: "crumb line" — dotted 3px `--crumb` border, not solid rules.
 
-## 3. Typography
+## Motion
 
-**Display Font:** League Spartan (with system-ui fallbacks)
-**Body Font:** Public Sans (with system-ui fallbacks)
-**Label/Mono Font:** JetBrains Mono (with monospace fallbacks)
+- Ease: `cubic-bezier(0.16, 1, 0.3, 1)` (expo-out). Durations 300–700ms. No bounce.
+- Hero: Three.js procedural fire shader (fbm noise) + GPU ember particles. Sub-pages get a lighter ember-field band.
+- Scroll reveals enhance visible defaults (content never hidden without JS); per-section treatments, not one uniform fade.
+- `prefers-reduced-motion`: shaders render a single static frame; ticker stops; reveals become instant.
 
-**Character:** A modern, highly technical look. Display text relies on League Spartan's extra-bold geometric weights and tight letter-spacing for maximum presence. Body text utilizes Public Sans with a generous line-height to ensure reading comfort. Technical details and labels are set in JetBrains Mono.
+## Layout
 
-### Hierarchy
-- **Display** (800, clamp(2.5rem, 7vw, 5rem), 1.05): Used for main hero headlines only.
-- **Headline** (800, clamp(1.8rem, 4.5vw, 2.8rem), 1.1): Used for major section headers.
-- **Title** (700, 1.25rem, 1.3): Used for cards, member names, and specs.
-- **Body** (400, 1rem, 1.6): Used for description copy, team roles, and details.
-- **Label** (500, 0.85rem, 1.2): Used for buttons, specs, and form labels.
-
-### Named Rules
-**The Balance Rule.** All display and headline text must use `text-wrap: balance` to prevent orphans and unbalanced line breaks. Long paragraphs must use `text-wrap: pretty` to maintain reading flow.
-
-## 4. Elevation
-
-The system is flat by default, rejecting decorative elevation and ambient shadows. Depth is conveyed strictly through contrasting flat color surfaces.
-
-### Named Rules
-**The Flat-Surface Rule.** All cards, sections, and navigation layers reside on a flat grid. Shadows are forbidden except as subtle interactive feedback (e.g., a glowing border or red glow on hover).
-
-## 5. Components
-
-Components are styled with sharp borders and clean padding to enforce the industrial feeling.
-
-### Buttons
-- **Shape:** Soft-square (6px radius)
-- **Primary:** Combustion Red (#f93e1b) background, Garage Black (#0c0b0d) text. 12px 24px padding.
-- **Ghost:** Transparent background with a Welding Seam (#222026) border. Bright Ash (#f4f1ee) text.
-- **Hover / Focus:** Hovering primary buttons shifts background to Embers Orange (#ff901e). Hovering ghost buttons shifts border to Combustion Red (#f93e1b). Transition timing must be 0.15s ease-out.
-
-### Cards / Containers
-- **Corner Style:** Rounded (12px radius)
-- **Background:** Steel Container (#121115)
-- **Border:** Welding Seam (#222026), 1px solid.
-- **Internal Padding:** Generous padding (32px) on all sides to prevent cramped layouts.
-
-### Inputs / Fields
-- **Style:** Steel Container (#121115) background, Welding Seam (#222026) border.
-- **Focus:** Sharp transition to a Combustion Red (#f93e1b) border. No glow rings.
-
-### Navigation
-- **Style:** Fixed to the top. Blended with Garage Black at 90% opacity. Simple text links in Cold Soot (#9d9893) transitioning to Bright Ash (#f4f1ee) on hover.
-
-## 6. Do's and Don'ts
-
-### Do:
-- **Do** use asymmetrical grid layouts to divide text and media/robot specs.
-- **Do** keep body copy constrained to a maximum width of 65ch for reading comfort.
-- **Do** use strict border lines and surface color differences to establish sections.
-- **Do** disable animations for users with `prefers-reduced-motion: reduce`.
-
-### Don't:
-- **Don't** use gradient text under any circumstances; rely on size, weight, and color contrast.
-- **Don't** use uppercase, wide-tracked kicks or eyebrows on every section (such as "// who we are" or "ABOUT"). Let the headlines speak for themselves.
-- **Don't** use side-stripe borders (borders >1px on one side of an element) for accents.
-- **Don't** use decorative glassmorphism or back-blurs unless physically contextual (like a sticky navbar).
-- **Don't** use a cream or beige background; the canvas must remain Garage Black.
-- **Don't** use numbered section markers (01, 02, etc.) as decorative eyebrows.
+- Content column: `min(1100px, 92vw)`. Fluid section spacing `clamp(4rem, 10vh, 8rem)`.
+- Asymmetric folds: alternate text-heavy / visual-heavy sides. No identical card grids — vary spans.
+- z-scale: `--z-nav: 10; --z-ticker: 5; --z-modal: 50; --z-toast: 60`.

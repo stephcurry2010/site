@@ -1,12 +1,8 @@
-# Local Claude Code / preview tooling
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
 .claude/
-
-# OS / editor cruft
-.DS_Store
-Thumbs.db
-*.log
-
-# Local impeccable / OMP tooling artifacts
 .impeccable/
-.pi/
-omp-session-*.html
+.DS_Store

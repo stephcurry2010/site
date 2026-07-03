@@ -1,0 +1,18 @@
+{
+  "name": "ftc-36424-website",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Underengineered Toasters — FTC Team 36424 website",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "vite": "^8.1.3"
+  }
+}
