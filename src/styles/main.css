@@ -453,7 +453,7 @@ nav.nav-fade-right::after {
   padding-block: clamp(3rem, 12vh, 7rem);
 }
 
-/* Stacked poster headline — three committed lines, no overflow at any width */
+/* Stacked poster headline — two committed lines, no overflow at any width */
 .hero__title {
   font-size: 1rem; /* spans own their own sizes */
   margin-bottom: 0.4em;
@@ -463,13 +463,8 @@ nav.nav-fade-right::after {
   display: block;
 }
 
-.hero__title .t-under {
-  font-size: clamp(1.5rem, 5vw, 3.2rem);
-  color: var(--ink-muted);
-}
-
-.hero__title .t-engineered {
-  font-size: clamp(1.9rem, 6.4vw, 4.2rem);
+.hero__title .t-underengineered {
+  font-size: clamp(1.3rem, 4.3vw, 2.8rem);
   color: var(--ink);
 }
 
@@ -516,12 +511,8 @@ nav.nav-fade-right::after {
     animation: rise-in 0.7s var(--ease-out) backwards;
   }
 
-  .hero__title .t-engineered {
-    animation-delay: 0.08s;
-  }
-
   .hero__title .t-toasters {
-    animation-delay: 0.16s;
+    animation-delay: 0.08s;
   }
 
   .hero__tag {
@@ -965,6 +956,23 @@ a.res-row__name:hover {
   border-radius: var(--radius-panel);
   padding-inline: 1.2rem;
   margin-inline: -1.2rem;
+}
+
+.dial__addon {
+  margin-top: 2.2rem;
+  padding: 1.2rem 1.4rem;
+  font-size: 1.2rem;
+  color: var(--ink);
+  background: linear-gradient(90deg, oklch(0.58 0.21 32 / 0.14), transparent 70%);
+  border: 3px dotted var(--crumb);
+  border-radius: var(--radius-panel);
+}
+
+.dial__addon-price {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--flame);
+  white-space: nowrap;
 }
 
 /* --- Sponsor logos strip ------------------------------------------------------------------------------ */
